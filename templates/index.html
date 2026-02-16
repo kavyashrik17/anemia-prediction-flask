@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Anemia Risk Prediction System</title>
+    <!-- Link external CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h2>Anemia Risk Prediction</h2>
+    <p>Community Health Survey Form</p>
+    <form action="/predict" method="post">
+        <label>Full Name</label>
+        <input type="text" name="name" required>
+
+        <label>Gender</label>
+        <select name="gender" required>
+            <option value="">Select</option>
+            <option value="0">Male</option>
+            <option value="1">Female</option>
+        </select>
+
+        <label>Age</label>
+        <input type="number" name="age" required>
+
+        <label>Hemoglobin Level (g/dL)</label>
+        <input type="number" step="0.1" name="hemoglobin" required>
+
+        <label>Food Intake (Previous Day)</label>
+        <div class="checkbox-group">
+            <input type="checkbox" name="food" value="greens"> Green leafy vegetables<br>
+            <input type="checkbox" name="food" value="dal"> Dal / Pulses<br>
+            <input type="checkbox" name="food" value="eggs"> Eggs<br>
+            <input type="checkbox" name="food" value="meat"> Meat / Fish<br>
+            <input type="checkbox" name="food" value="fruits"> Fruits
+        </div>
+        <br>
+        <button type="submit">Predict Anemia Risk</button>
+    </form>
+
+    {% if prediction %}
+        <div class="result
+            {% if prediction == 'Low Risk' %}low
+            {% elif prediction == 'Moderate Risk' %}moderate
+            {% else %}severe{% endif %}">
+            {{ prediction }}
+        </div>
+    {% endif %}
+{% if advice %}
+<div class="advice">
+    <h3>Recommended Nutritional Advice</h3>
+    <ul>
+        {% for item in advice %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+</div>
+</body>
+</html>
